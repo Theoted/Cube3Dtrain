@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draws.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdeville <tdeville@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: theodeville <theodeville@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 13:40:23 by tdeville          #+#    #+#             */
-/*   Updated: 2022/10/06 15:16:00 by tdeville         ###   ########lyon.fr   */
+/*   Updated: 2022/10/07 11:06:02 by theodeville      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,6 @@
 //     while ()
 // }
 
-int find_player(t_mlx_data *data, int x, int y)
-{
-    int i;
-    
-    i = -1;
-    x *= 100;
-    y *= 100;
-    while (++i < 100)
-    {
-        if (x == data->char_pos.px && x == data->char_pos.py)
-            return (1);
-        x++;
-    }
-    return (0);
-}
-
 void    draw_player1(t_mlx_data *data, int x, int y)
 {
     int i;
@@ -44,14 +28,10 @@ void    draw_player1(t_mlx_data *data, int x, int y)
     int xx;
 
     i = -1;
-    x *= 100;
-    x += 45;
-    y *= 100;
-    y += 45;
     while (++i < 45)
     {
-        xx = x; 
         j = -1;
+        xx = x;
         while (++j < 45)
         {
             mlx_pixel_put(data->mlx_ptr, data->mlx_win, xx, y, 0xFF0000);
@@ -120,8 +100,8 @@ void    put_pixel_x(t_mlx_data *data, int x, int y)
 
 void    draw_map(t_mlx_data *data)
 {
-    int y;
-    int x;
+    int     y;
+    int     x;
 
     y = -1;
     while (data->matrix[++y])
@@ -140,9 +120,6 @@ void    draw_map(t_mlx_data *data)
                 data->char_pos.py = ((y * 100) + 45);
                 mlx_pixel_put(data->mlx_ptr, data->mlx_win, ((x * 100) + 45), ((y * 100) + 45), 0xFFFFFF);
             }
-            else if (((x * 100)) == data->char_pos.px
-                && ((y * 100)) == data->char_pos.py)
-                draw_player1(data, x, y);
         }
     }
 }

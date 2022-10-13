@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tdeville <tdeville@student.42lyon.fr>      +#+  +:+       +#+         #
+#    By: theodeville <theodeville@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/02 13:51:24 by tdeville          #+#    #+#              #
-#    Updated: 2022/01/11 10:27:30 by tdeville         ###   ########lyon.fr    #
+#    Updated: 2022/10/07 10:41:46 by theodeville      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ OBJS_B	= ${SRCS_B:.c=.o}
 
 
 CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra
+CFLAGS	= 
 
 all: ${NAME}
 

@@ -6,7 +6,7 @@
 /*   By: theodeville <theodeville@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 11:17:55 by theodeville       #+#    #+#             */
-/*   Updated: 2022/10/07 11:23:45 by theodeville      ###   ########.fr       */
+/*   Updated: 2022/10/25 11:36:03 by theodeville      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int _bresenham(t_mlx_data *data, int x0, int y0, int x1, int y1)
 
     while (1)
     {
-        mlx_pixel_put(data->mlx_ptr, data->mlx_win, x0, y0, 0xFF0000);
+        my_mlx_pixel_put(data, x0, y0, 0xFF0000);
         if ((x0 == x1) && (y0 == y1))
             break;
         int e2 = 2 * err;

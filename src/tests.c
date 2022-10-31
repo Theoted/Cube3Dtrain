@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tests.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdeville <tdeville@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: theodeville <theodeville@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 11:23:59 by tdeville          #+#    #+#             */
-/*   Updated: 2022/10/06 11:47:39 by tdeville         ###   ########lyon.fr   */
+/*   Updated: 2022/10/24 10:32:45 by theodeville      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ char    **init_matrix_test(char **matrix)
     matrix[9] = ft_strdup("111111111111");
     while (++i < 9)
         matrix[i] = ft_strdup("100000000001");
-    free(matrix[7]);
-    matrix[7] = ft_strdup("10000N000001");
+    free(matrix[4]);
+    matrix[4] = ft_strdup("10000N000001");
     // print_matrix(matrix);
     return (matrix);
 }

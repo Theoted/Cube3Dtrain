@@ -6,7 +6,7 @@
 #    By: theodeville <theodeville@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/12 11:52:14 by tdeville          #+#    #+#              #
-#    Updated: 2022/10/07 11:21:18 by theodeville      ###   ########.fr        #
+#    Updated: 2022/10/24 11:05:44 by theodeville      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ INCLUDES= ${addprefix -I, ${sort ${dir ${HEADER}}}}
 
 SRCS	=	main.c src/init_mlx.c src/tests.c \
 			src/draws.c src/_bresenham.c \
+			src/_line_line_intersection.c \
 
 OBJS	= ${SRCS:.c=.o}
 

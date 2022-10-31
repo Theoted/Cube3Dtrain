@@ -6,89 +6,66 @@
 /*   By: theodeville <theodeville@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:47:57 by tdeville          #+#    #+#             */
-/*   Updated: 2022/10/07 12:53:35 by theodeville      ###   ########.fr       */
+/*   Updated: 2022/10/25 15:42:37 by theodeville      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/cub3d.h"
 
-double radiant;
+int draw_sensor(t_mlx_data *data, int nb);
+
+float radiant;
+
+void my_mlx_pixel_put(t_mlx_data *data, int x, int y, int color)
+{
+	char *dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
+}
 
 int move_up(t_mlx_data *data)
 {
-    int x1;
-    int y1;
+    int x;
+    int y;
 
-    x1 = 0;
-    y1 = 0;
-    data->char_pos.py -= 10 - data->char_pos.pa;
-    x1 = data->char_pos.px + 22 + data->char_pos.pa;
+    x = data->char_pos.px + 22;
+    y = data->char_pos.py + 22;
+    data->char_pos.py -= 10;
     draw_player1(data, data->char_pos.px, data->char_pos.py);
     mlx_clear_window(data->mlx_ptr, data->mlx_win);
     draw_map(data);
-    _bresenham(data, data->char_pos.px + 22, data->char_pos.py + 22,
-        x1, data->char_pos.py - 150);
+    draw_sensor(data, 1);
     return 0;
 }
 
 int move_back(t_mlx_data *data)
 {
-    int x1;
-    int y1;
+    int x;
+    int y;
 
-    x1 = 0;
-    y1 = 0;
-    data->char_pos.py += 10 + data->char_pos.pa;
-    x1 = data->char_pos.px + 22 + data->char_pos.pa;
+    x = data->char_pos.px + 22;
+    y = data->char_pos.py + 22;
+    data->char_pos.py += 10;
     draw_player1(data, data->char_pos.px, data->char_pos.py);
     mlx_clear_window(data->mlx_ptr, data->mlx_win);
     draw_map(data);
-    _bresenham(data, data->char_pos.px + 22, data->char_pos.py + 22,
-        x1, data->char_pos.py - 150);
+    draw_sensor(data, 1);
     return 0;
 }
 
 int move_right(t_mlx_data *data)
 {
-    int x1;
-    int y1;
-
-    x1 = 0;
-    y1 = 0;
-    data->char_pos.pa += PI/2;
-    x1 = data->char_pos.px + 22 + data->char_pos.pa;
-    draw_player1(data, data->char_pos.px, data->char_pos.py);
+    data->char_pos.pa -= 1.5;
+    printf("%f\n", data->char_pos.pa);
     mlx_clear_window(data->mlx_ptr, data->mlx_win);
     draw_map(data);
-    _bresenham(data, data->char_pos.px + 22, data->char_pos.py + 22,
-        x1, data->char_pos.py - 150);
+    draw_player1(data, data->char_pos.px, data->char_pos.py);
+    draw_sensor(data, 10);
     return 0;
 }
 
-// int move_left(t_mlx_data *data)
-// {
-//     int x1;
-//     int y1;
-
-//     x1 = 0;
-//     y1 = 0;
-//     data->char_pos.pa -= 1;
-//     if (data->char_pos.pa < 0)
-//         data->char_pos.pa += 2*PI;
-//     data->char_pos.pdx=cos(data->char_pos.pa) * 5;
-//     data->char_pos.pdy=sin(data->char_pos.pa) * 5;
-    
-//     printf("pa = %d\n", data->char_pos.pa);
-//     x1 = data->char_pos.px + 22 - data->char_pos.pa;
-//     draw_player1(data, data->char_pos.px, data->char_pos.py);
-//     mlx_clear_window(data->mlx_ptr, data->mlx_win);
-//     draw_map(data);
-//     _bresenham(data, data->char_pos.px + 22, data->char_pos.py + 22,
-//         x1, data->char_pos.py - 150);
-//     return 0;
-// }
-
-int move_left(t_mlx_data *data)
+int draw_sensor(t_mlx_data *data, int nb)
 {
     int px;
     int py;
@@ -96,23 +73,47 @@ int move_left(t_mlx_data *data)
     int py1;
     int dx;
     int dy;
+    int i;
+    double s_r;
 
-    data->char_pos.pa -= 1;
-    px = data->char_pos.px + 22;
-    py = data->char_pos.py + 22;
-    px1 = data->char_pos.px + 22 + data->char_pos.pa;
-    py1 = data->char_pos.px + 22;
-    radiant = 20 * (PI/180);
+    i = 0;
+    px = data->char_pos.px + 10;
+    py = data->char_pos.py + 10;
+    px1 = data->char_pos.px + 10;
+    py1 = data->char_pos.py + 552;
+    s_r = data->char_pos.pa;
+    while (i < nb)
+    {
+        radiant = s_r * (PI/180);
+        dx = ((cos((double)radiant) *  (px1 - px)) - (sin((double)radiant) * (py1 - py)) + px);
+        dy = ((sin((double)radiant) *  (px1 - px)) - (cos((double)radiant) * (py1 - py)) + py);
+        if (!_line_line_intersection(data, 200, 200, 550, 550, dx, dy))
+            if (!_line_line_intersection(data, 63, 634, 768, 768, dx, dy))  
+                if (!_line_line_intersection(data, 983, 183, 709, 409, dx, dy))
+                    ;
+        if (data->sensor.c_x != -1 && data->sensor.c_y != -1)
+        {
+            dx = data->sensor.c_x;
+            dy = data->sensor.c_y;
+        }
+        if (dy < 0)
+            dy = 0;
+        s_r += 2.5;
+        _bresenham(data, px, py, dx, dy);
+        data->sensor.c_x = -1;
+        data->sensor.c_y = -1;
+        i++;
+    }
+    return (0);
+}
 
-    dx = ((cos(radiant) *  (px - px1)) - (sin(radiant) * (py - py1)) + px1);
-    dy = ((sin(radiant) *  (px - px1)) - (cos(radiant) * (py - py1)) + py1);
-
-    printf("radiant = %f\n", radiant);
-    draw_player1(data, data->char_pos.px, data->char_pos.py);
-    mlx_clear_window(data->mlx_ptr, data->mlx_win);
+int move_left(t_mlx_data *data)
+{
+    data->char_pos.pa += 1.5;
     draw_map(data);
-    _bresenham(data, px, py,
-        dx, dy);
+    draw_player1(data, data->char_pos.px, data->char_pos.py);
+    // mlx_clear_window(data->mlx_ptr, data->mlx_win);
+    draw_sensor(data, 10);
     return 0;
 }
 
@@ -126,7 +127,16 @@ int deal_key(int key, t_mlx_data *data)
         move_back(data);
     if (key == 0)
         move_left(data);
+    mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->img, 0, 0);
     return (0);
+}
+
+int draw_walls(t_mlx_data *data)
+{
+    _bresenham(data, 200, 200, 550, 550);
+    _bresenham(data, 63, 634, 768, 768);
+    _bresenham(data, 983, 183, 709, 409);
+    return 0;
 }
 
 int main(int ac, char **av)
